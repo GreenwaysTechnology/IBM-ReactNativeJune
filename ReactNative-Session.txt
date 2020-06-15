@@ -1,0 +1,81 @@
+
+What is React native
+
+ React is lib for building user interfaces
+ native refers hardware /os specific application - mobile/ tab /tv /....
+
+******************************************************************************************
+-----------------------------------------------------------------------------
+ Markup layer             |  React Core Engine    | Render Engine   | Target
+-----------------------------------------------------------------------------
+(JSX)                            Reconciliation
+HTML Markup- cmp--js--------|  Object Tree(V.DOM)    ReactDom.render |  Browser
+****************************************************************************************
+JSX -Mobile JSX
+Mobile Markup-------------|   Object Tree          |ReactNative.render| Mobile /Tabs
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+VR Markup---------------  |  Object Tree          |VR.render         |VR devices
+*******************************************************************************************
+IOT Markup--------------- |  Object Tree          | IOT.render       |IOT Devices   
+********************************************************************************************
+					React Core
+					   |
+		-----------------------------------------------------------------
+		Browser   Mobile/Tab/TV       VR                IOT 
+		  |         |                 |
+	     HTML,CSS    NoHTML,No CSS
+
+
+*****************************************************************************************
+React Native architecture
+
+React native application is written using java script : App logic
+React native UI is written using special jsx language, independant to devices(andorid/IOS)
+ jsx is written using component language (ready made components provide by react native)
+
+No HTML
+No css
+
+React native offers components which are ready made, you can create your own.
+
+
+How to build react native ?
+
+
+Work flow
+
+1.Expo work flow
+2.native work flow
+
+
+Expo work flow to native work flow you can switch at any time , this process is called
+as "ejection"
+******************************************************************************************
+
+Project setup:
+
+Expo work flow:
+..............
+
+npm install expo-cli --global
+
+Create your first project
+
+expo init myNewProject
+cd myNewProject
+expo start
+
+
+
+
+
+
+
+
+
+
+
+
+
+
