@@ -1,19 +1,21 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {View,Text} from 'react-native'
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+
+const App = ()=>{
+
+    {/**container */}
+   return  <View style={{flex:1,flexDirection:'column-reverse', paddingTop:50}}>
+        {/**Child elements */}
+        <View style={{backgroundColor:'yellow',width:50,height:50}}>
+
+        </View>
+        <View style={{backgroundColor:'red',width:50,height:50}}>
+
+        </View>
+        <View style={{backgroundColor:'blue',width:50,height:50}}></View>
     </View>
-  );
+
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
