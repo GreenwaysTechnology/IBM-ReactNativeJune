@@ -1,53 +1,83 @@
-import React, { useState } from 'react';
-import {Text,View,StyleSheet, Button, TextInput, Alert, ScrollView, FlatList} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {View,Text,FlatList,StyleSheet} from 'react-native';
 
+//Users details : jsonplaceholder
+const Users= ()=>{
+    //state to hold user data,status,error
+    const [users,setUsers] =useState({
+        error:null,
+        isLoaded:false,
+        items:[]
+    });
+    //fetch call 
+    // useEffect(()=>{
+    //     const url='https://jsonplaceholder.typicode.com/users';
+    //     //TODO: This code must be converted into async and await style
+    //     fetch(url)
+    //        .then(response=>response.json())
+    //        .then(result=>{
+               
+    //            //initalize the data
+    //            setUsers({...users,isLoaded:true,items:result});
+            
+    //           },error=>{
+    //             console.log(error)
+    //             setUsers({...users,isLoaded:true,error:error});
+    //     });
+     
 
-const  App = ()=>{
+    // });
+    useEffect(async () => {
+        try {
+            const url='https://jsonplaceholder.typicode.com/users';
+            const response = await fetch(url);
+            const result = await response.json();
+            setUsers({...users,isLoaded:true,items:result});
+        } catch (error) {
+            setUsers({...users,isLoaded:true,error:error});
+        }
+    }, []);
+   //show error view if error is there
+   if(users.error){
+       return <View>
+               <Text>Error :{users.error.message}</Text>
+       </View>
+   }else if (!users.isLoaded){
+        return <View>
+            <Text>Loading.....</Text>
+        </View>
+   }else{
+       {/**TODO: Convert this into flatList */}
+       return <View>
+                {users.items.map((user,index)=>(<View>
+                <Text style={styles.title}> {user.email}</Text>
+                </View>))}
+       </View>
+   } 
 
-    const [text,setText]= useState('Subramanian');
-    const[item,setItem] = useState([]);
+}
 
-    const update=input=>{
-        setText(input)
-    }
-    const addItem= ()=>{
-      //  Alert.alert(text);
-        setText('Item');
-        setItem([...item,text]);
-    }
+const App =()=>{
+  return <View style={styles.container}>
+        <Users/>
+  </View>
+}
 
-    return <View style={styles.container}>
-        <TextInput style={styles.input} value={text} onChangeText={update}/>
-        <Button title="Add" onPress={addItem}/>
-        <FlatList scrollEnabled={true} horizontal={false} data={item} renderItem={itemData=>(
-                <View style={styles.listItem}>
-                    <Text>{itemData.item}</Text>
-                </View>
-        )} />
-           
-    </View>
-};
 export default App;
 
 const styles = StyleSheet.create({
-    container:{
-        backgroundColor :'white',
-        paddingTop:50,
-        marginLeft :10,
-        flex:1,
-        paddingEnd:20
+    container: {
+      flex: 1,
+      paddingTop:30
     },
-    input: {
-        width:'100%',
-        borderColor:'black',
-        borderWidth:1,
-        padding:10,
-        marginBottom:10
-
-     },
-     listItem:{
-         padding:10,
-         marginVertical:10,
-         backgroundColor:'pink'
-     }
-});
+    item: {
+      backgroundColor: '#f9c2ff',
+      padding: 20,
+      marginVertical: 8,
+      fontSize: 32,
+      marginHorizontal: 16,
+    },
+    title: {
+      fontSize: 32,
+    },
+  });
