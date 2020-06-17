@@ -66,11 +66,913 @@ expo init myNewProject
 cd myNewProject
 expo start
 
+******************************************************************************************
+
+How to build react native application?
+
+React Native follows react component driven architecture.
+
+Application is all about components.
+
+Every application will have single root Application.
+
+React Native root applicatio is would be "App" component
+
+
+Apis:
+1. 'react' package must be imported
+2.'react-native' package must be import
+
+react package contans core react apis
+
+React
+ Component
+ Context
+ hooks api
+ etc....
+react-native package
+built in components
+some mobile specific apis and widgets
+
+Core Component:
+
+1.in html container component
+ div element
+
+div =>View
+
+View Component 
+
+it is container component ,
+which contains other components.
+
+Text Component/Labels
+<p>
+<h1>
+<h2>
+
+<Text>
+import React,{Fragment} from 'react';
+import {View,Text} from 'react-native';
+
+//write App Component
+// function App(){
+//    //return jsx elements : React-native Components
+//    return <React.Fragment> 
+//       <Text>
+//         Welcome to React Native
+//    </Text>
+//     <Text>
+//         Welcome to React Native
+//     </Text>
+//    </React.Fragment>
+// }
+// function App(){
+//     //return jsx elements : React-native Components
+//     return <Fragment> 
+//        <Text>
+//          Welcome to React Native
+//     </Text>
+//      <Text>
+//          Welcome to React Native
+//      </Text>
+//     </Fragment>
+//  }
+
+// function App(){
+//     //return jsx elements : React-native Components
+//     return <> 
+//        <Text>
+//          Welcome to React Native
+//     </Text>
+//      <Text>
+//          Welcome to React Native
+//      </Text>
+//     </>
+//  }
+
+// function App(){
+//     //return jsx elements : React-native Components
+//     return <View> 
+//        <Text>
+//          Welcome to React Native
+//     </Text>
+//      <Text>
+//          Welcome to React Native
+//      </Text>
+//     </View>
+//  }
+const App = ()=><View>
+    <Text>Welcome to React Native</Text>
+    <Text>Welcome to React Native</Text>
+</View>
+
+export default App;
+/////////////////////////////////////////////////////////////////////////////////////////
+
+Component Composition:
+**********************
+import React,{Fragment} from 'react';
+import {View,Text} from 'react-native';
+
+
+//create a separate components: component composition
+
+//Hello
+const Hello = ()=><Text>
+    Hello,How are You
+</Text>
+//Greeter
+export const Greeter=()=><Text>
+        Welcome to React Native
+</Text>
+
+//app comonent
+const App = ()=><View>
+    {/**Component composition */}
+    <Greeter/>
+    <Hello/>
+</View>
+
+export default App;
+
+*******************************************************************************************
+
+Component compositions with help of modularity
+
+folders
+ -files
+    -component files
+
+components
+   |
+   componentfile.jsx
 
 
 
+components/Greeter.jsx
+import React from 'react';
+import {Text} from 'react-native';
 
 
+export const Greeter=()=><Text>
+        Welcome to React Native
+</Text>
+
+component/Hello.jsx
+
+import React from 'react';
+import {Text} from 'react-native';
+
+
+export const Hello=()=><Text>
+    Hello, How are you?
+</Text>
+
+
+App.js
+import React,{Fragment} from 'react';
+import {View,Text} from 'react-native';
+import {Greeter} from './components/Greeter';
+import {Hello} from './components/Hello'
+
+//app comonent
+const App = ()=><View>
+    {/**Component composition */}
+    <Greeter/>
+    <Hello/>
+</View>
+
+export default App;
+******************************************************************************************
+
+Barrel export:
+
+single folder
+  |
+  multiple files
+
+
+when you import from multiple files inside another file
+
+import {Greeter} from './components/Greeter';
+import {Hello} from './components/Hello'
+
+Why barrel export
+
+1. eleminiate lot of import statements
+2. we need not remember the file names for each component/service...
+
+
+Stpes to implement barrel
+
+1.go to the folder and create file called "index.js"
+
+2.import and export all from the folder :re export
+
+3.when you use you need not tell the folder name.
+
+
+components/index.js
+import {Greeter} from './Greeter';
+import {Hello} from './Hello';
+
+//barrel export / Re export
+export {Hello,Greeter};
+
+App.js
+import React,{Fragment} from 'react';
+//here react-native is folder , not file
+//View may from one file view.js and text.js
+import {View,Text} from 'react-native';
+// import {Greeter} from './components/Greeter';
+// import {Hello} from './components/Hello'
+//use Barrel export
+import {Greeter,Hello} from './components';
+
+//app comonent
+const App = ()=><View>
+    {/**Component composition */}
+    <Greeter/>
+    <Hello/>
+</View>
+
+export default App;
+
+
+
+How node modules are looked up
+
+./ vs ''
+.........
+
+ require('./services/TODOService');
+  ->here you can see ./
+  ./ -current dir
+ require('os'); => 
+  -here no ./ 
+
+
+Why?
+
+Note : if you are java devp, you know the classpath , how it works?
+
+
+require('os');
+
+Node internally uses a search algorthim,node always looks the folder called
+ "node_modules" in the current project, if not , then it searches, the node in built 
+installtion folder---c:/pf/node/node_nodules--if it finds it will pick up from there else it will throw error.
+
+require('./services/TODOService');
+   it will lookup in the current dir or sub dirs only.
+********************************************************************************************
+Data binding , props, state:
+............................
+components/page
+Header.jsx
+import React from 'react';
+import {View,Text} from 'react-native';
+
+export const Header=({title})=><View>
+    <Text>{title}</Text>
+</View>
+
+components/page
+Footer.jsx
+
+import React from 'react';
+import {View,Text} from 'react-native';
+
+export const Footer=({content})=><View>
+    <Text>{content}</Text>
+</View>
+
+components/page
+index.js
+import React from 'react';
+import {View,Text} from 'react-native';
+
+export const Footer=({content})=><View>
+    <Text>{content}</Text>
+</View>
+
+App.js
+import React,{Fragment} from 'react';
+import {View} from 'react-native';
+import {Header,Footer} from './components/page';
+
+//app comonent
+const App = ()=><View>
+    {/**Component props */}
+    <Header title="App Header"/>
+    <Footer content="footer content"/>
+
+</View>
+
+export default App;
+
+******************************************************************************************
+
+default Props:
+
+ if props are not supplied, then we can give default props
+
+
+import React from 'react';
+import {View,Text} from 'react-native';
+
+export const Header=({title})=><View>
+    <Text>{title}</Text>
+</View>
+
+//Default Props for Header Component
+Header.defaultProps={
+    title: 'some header'
+}
+
+*******************************************************************************************
+
+Styles:
+
+React Native applications are platform independant: if android means, android spefic styles
+should be applied, if ios means ios specific styles should be challenge.
+                                                     
+						     
+ 						      |----Android
+ Common Style language/lib/framework----|build tool---|----IOS
+
+
+CSS is style language for web -browsers.
+
+Can we use CSS language for React Native?
+
+No!.
+
+React Native uses CSS INSIDE javascript:
+
+In React
+
+csss
+.box{
+ background-color :'red'
+ }
+
+Way1
+ <div className="box">
+
+way 2
+
+javascript style object
+ <div style={ {backgroundColor:'red'} } />
+
+javascript style object properties:
+https://www.w3schools.com/jsref/dom_obj_style.asp
+
+React Native style representation:
+
+1.StyleSheet  is object through we can create styles and can be attached to any React native
+elements.
+
+Style can be applied in twos
+
+1.inline style object
+<View>
+
+</View>
+
+2.external style object
+<View>
+
+</View>
+
+import React from 'react';
+import {View,Text,StyleSheet} from 'react-native';
+
+//inLine
+// const App=()=><View style={{backgroundColor:'pink'}}>
+//     <Text>
+//         Hello,Style
+//     </Text>
+// </View>
+
+const App=()=><View style={styles.container}>
+    <Text style={styles.title}>
+        Hello,Style
+    </Text>
+</View>
+
+//style object
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor:'pink',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    title: {
+        fontSize:50,
+        fontWeight:'bold',
+        borderWidth:5,
+        padding:30,
+        borderStyle:'solid'
+    }
+});
+export default App;
+*****************************************************************************************
+
+UI Design:
+..........
+
+Every UI, Design starts with box, Box model.
+
+Every Element/Widget/Component is a box.
+
+Every Box has the following properties
+
+
+1.width
+2.height
+
+measurements are specified using device px, in react native we dont tell units.
+
+ width: 100px / 100% -html
+
+The value of width  of an component , in general the "width of container"
+The value of height of an component ,the component height.
+
+space :
+
+Space can allocated of an component 
+
+1.margin
+   The space allocated outside component
+2.padding
+  The space allocated inside component
+
+Faces of widget:
+................
+
+Clock wise order
+ Top---Right---bottom--left
+
+space allocation based on sides
+
+leftMargin:10
+rightMargin:10
+topMargin:10
+bottomMargin:10
+
+padding : left,right,top,bottom
+
+Allocate 10px padding and margin equally in all sides
+
+padding : 10
+
+margin :10
+******************************************************************************************
+
+Flex Box:
+
+What is flex box / flex?
+
+The flex box is specification introduced in css  to build responsive web application alternate
+to grid layout.
+
+flexbox is one dimensional layout model, where as gird layout is two dimensional layout.
+
+Any layout is box based design
+
+layout is rendered as row-column coimbation : two dimensional layout
+     "Grid"
+
+layout is rendered either row or column direction ; one dimensional layout 
+     "Flex"
+
+
+Flex box basics:
+
+
+Axes of Flex:
+ There are two types of axes
+
+1.Main axis
+2.Cross axis
+
+Based on axes only elements/components are laid out.
+
+How to activate the flex layout?
+
+ Flex layout is already activated in side every react native elements.
+
+we can override flex property
+
+eg:
+
+flex : 1 
+
+container and child:
+
+Container is an Component , inside we lay out other elements called childrens
+
+ if you set flex property, child elements layout will be decided based on parent element.
+
+The main axis is defined by "flex-direction" which has four values
+
+ row
+ row-reverse
+ column
+ column-reverse
+
+ flexDirection: row | column | row-reverse | column-reverse
+
+import React from 'react';
+import {View,Text} from 'react-native'
+
+
+const App = ()=>{
+
+    {/**container */}
+   return  <View style={{flex:1,flexDirection:'column-reverse', paddingTop:50}}>
+        {/**Child elements */}
+        <View style={{backgroundColor:'yellow',width:50,height:50}}>
+
+        </View>
+        <View style={{backgroundColor:'red',width:50,height:50}}>
+
+        </View>
+        <View style={{backgroundColor:'blue',width:50,height:50}}></View>
+    </View>
+
+}
+
+export default App;
+
+*******************************************************************************************
+
+flex property will define how your items are going to "fill" over available space along
+your main axis.
+
+space will be divied according to each element's flex property
+
+flex: 1 :  the whole space is allocated to child elements.
+
+eg: there are three boxes(child)
+
+ <Container>
+  red box  : flex :1
+  yellow box flex : 2
+  green box  flex : 3
+</Container>
+
+ The total container space is divided to red,yellow,green boxes
+  how much space is allocated for each box is decided by flex value
+
+redbox + yellow box + greenbox =  1+ 2 + 3  = 6
+
+Assume that total container space is 6.
+
+ Then red is will take 1/6, yellow 2/6, 3/6
+
+******************************************************************************************
+
+Layout Direction:
+
+Layout direction tells the direction in which childrens and text in a hierachy should
+be laid out.
+
+There are two property
+ start
+ end
+
+by default react native lays down LTR,
+in this "start" refers left side
+end refers right side.
+
+RTL(Right to Left)
+ start referes right side
+ end refers left side.
+
+*******************************************************************************************
+
+Alignments, justification,distribution of free space between items:
+....................................................................
+
+alignItems:
+  property wil align the items on the cross axis
+
+values:
+1.stretch(default)
+   Which stretch children of a container to match height of the container cross axis
+2.flex-start
+   Align children of a container to the start of the containers cross axis
+3.flex-end
+  Align children of a container to the end of the containers cross axis
+4.center
+  Align children of a container to the center of the containers cross axis
+
+justifyContent:
+  Property will align the items on the main axis
+ 
+1.flex-start(default)
+   this propery will align to the start of the containers main axis
+
+2.flex-end 
+
+3.center
+
+4.space-around
+
+5.space-between
+
+******************************************************************************************
+
+other properties:
+
+flex wrap
+height,width
+absoulte,relative
+********************************************************************************************
+Tasks
+Create Calculator Layout:
+******************************************************************************************
+
+State Mutation,Component Composition : Dynamic Props,Event Handling:
+.....................................................................
+//Counter Component
+
+import {View,StyleSheet,Text, Button} from 'react-native';
+import React, { useState } from 'react';
+
+//container component
+export const Counter=()=>{
+    //useState hook
+    const [count,setCount] = useState(10);
+    const increment=()=>{
+        setCount(count+1);
+    }
+   return <View>
+          {/**state as prop */}
+          <CounterDisplay count={count} onIncrement={increment} />
+
+   </View>
+}
+//presentational component
+export const CounterDisplay=({count,onIncrement})=>{
+    return <>
+         <Text style={styles.label}>Counter Component</Text>
+         <Text style={styles.label}>Value {count}</Text>    
+         <Button title="Increment" onPress={onIncrement} color="green"/>
+ 
+     </>
+}
+
+const App = ()=><View style ={styles.container}>
+     <Counter/>
+</View>
+
+export default App;
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    label:{
+        fontSize :25,
+        color:'red'
+    }
+ });
+  
+*************************************************************************************
+
+TextInput:
+
+--Get input
+
+
+//Text Input Component
+import {View,StyleSheet,Text, Button, TextInput,Alert} from 'react-native';
+import React, { useState } from 'react';
+
+const GetInput=()=>{
+    const [text,setText]= useState('Subrmanian');
+    //array
+    const[item,setItem] = useState([]);
+   
+    //listener method
+    const update = name=>{
+        setText(name)
+    }
+    const getName = ()=>{
+         // Alert.alert(text);
+         //validation
+         if(text.length===0){
+             return ;
+         }
+          setItem([...item,text]);
+          setText('')
+    }
+
+    return <>
+         <Text>Enter Name {text}</Text>
+         <TextInput  value={text} onChangeText={update} style={styles.input}/>
+         <Button title="Enter Name" onPress={getName} color="green"/>
+         <View>
+             <Text>Name Lists</Text>
+             <View>
+            {item.map((i,index)=>
+             <View key={index} style={styles.listItem}>
+               <Text>{i}</Text>
+             </View>            
+            )}
+        </View>
+         </View>
+
+    </>
+};
+
+/**
+ * Create Component Hierachy * 
+ * <GetInput>
+ *   <Name>
+ *      <NameList>
+ *             <NameItem> </NameItem>
+ *      </NameList>
+ *   </Name>
+ * </GetInput>
+ */
+
+
+const App = ()=><View style ={styles.container}>
+     <GetInput/>
+</View>
+
+export default App;
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    label:{
+        fontSize :25,
+        color:'red'
+    },
+    input: {
+        width:'100%',
+        borderColor:'black',
+        borderWidth:1,
+        padding:10,
+        marginBottom:10
+
+     },
+     listItem:{
+        padding:10,
+        marginVertical:10,
+        backgroundColor:'pink'
+    }
+ });
+  
+********************************************************************************************
+
+ScrollView
+
+import React, { useState } from 'react';
+import {Text,View,StyleSheet, Button, TextInput, Alert, ScrollView} from 'react-native';
+
+
+const  App = ()=>{
+
+    const [text,setText]= useState('Subramanian');
+    const[item,setItem] = useState([]);
+
+    const update=input=>{
+        setText(input)
+    }
+    const addItem= ()=>{
+      //  Alert.alert(text);
+        setText('Item');
+        setItem([...item,text]);
+    }
+
+    return <View style={styles.container}>
+        <TextInput style={styles.input} value={text} onChangeText={update}/>
+        <Button title="Add" onPress={addItem}/>
+        <ScrollView>
+            {item.map((i,index)=>
+             <View key={index} style={styles.listItem}>
+               <Text>{i}</Text>
+             </View>
+            
+            )}
+        </ScrollView>
+    </View>
+};
+export default App;
+
+const styles = StyleSheet.create({
+    container:{
+        backgroundColor :'white',
+        paddingTop:50,
+        marginLeft :10,
+        flex:1,
+        paddingEnd:20
+    },
+    input: {
+        width:'100%',
+        borderColor:'black',
+        borderWidth:1,
+        padding:10,
+        marginBottom:10
+
+     },
+     listItem:{
+         padding:10,
+         marginVertical:10,
+         backgroundColor:'pink'
+     }
+});
+*******************************************************************************************
+Flat List : 
+ When compare to scroll view , which renders all elements in advance, in case if you
+have more items shown beyond screen view.
+infinit list handling efficiently
+
+FlatList
+
+ <FlatList data={item} renderItem={itemData=>(
+        <View style={styles.listItem}>
+              <Text>{itemData.item}</Text>
+        </View>
+ )} />
+
+data ;  array / Datasource 
+renderItem ; function, which returns list items
+
+import React, { useState } from 'react';
+import {Text,View,StyleSheet, Button, TextInput, Alert, ScrollView, FlatList} from 'react-native';
+
+
+const  App = ()=>{
+
+    const [text,setText]= useState('Subramanian');
+    const[item,setItem] = useState([]);
+
+    const update=input=>{
+        setText(input)
+    }
+    const addItem= ()=>{
+      //  Alert.alert(text);
+        setText('Item');
+        setItem([...item,text]);
+    }
+
+    return <View style={styles.container}>
+        <TextInput style={styles.input} value={text} onChangeText={update}/>
+        <Button title="Add" onPress={addItem}/>
+        <FlatList scrollEnabled={true} horizontal={false} data={item} renderItem={itemData=>(
+                <View style={styles.listItem}>
+                    <Text>{itemData.item}</Text>
+                </View>
+        )} />
+           
+    </View>
+};
+export default App;
+
+const styles = StyleSheet.create({
+    container:{
+        backgroundColor :'white',
+        paddingTop:50,
+        marginLeft :10,
+        flex:1,
+        paddingEnd:20
+    },
+    input: {
+        width:'100%',
+        borderColor:'black',
+        borderWidth:1,
+        padding:10,
+        marginBottom:10
+
+     },
+     listItem:{
+         padding:10,
+         marginVertical:10,
+         backgroundColor:'pink'
+     }
+});
+
+*********************************************************************************************
+
+Rendering array of Objects:
+.............................
+ [{},{},{}]
 
 
 

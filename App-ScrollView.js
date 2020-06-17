@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Text,View,StyleSheet, Button, TextInput, Alert, ScrollView, FlatList} from 'react-native';
+import {Text,View,StyleSheet, Button, TextInput, Alert, ScrollView} from 'react-native';
 
 
 const  App = ()=>{
@@ -19,12 +19,14 @@ const  App = ()=>{
     return <View style={styles.container}>
         <TextInput style={styles.input} value={text} onChangeText={update}/>
         <Button title="Add" onPress={addItem}/>
-        <FlatList scrollEnabled={true} horizontal={false} data={item} renderItem={itemData=>(
-                <View style={styles.listItem}>
-                    <Text>{itemData.item}</Text>
-                </View>
-        )} />
-           
+        <ScrollView>
+            {item.map((i,index)=>
+             <View key={index} style={styles.listItem}>
+               <Text>{i}</Text>
+             </View>
+            
+            )}
+        </ScrollView>
     </View>
 };
 export default App;
