@@ -1204,6 +1204,601 @@ DecremnetComponent
 
 
 
+Add  new reducer, decrementreducer --counter itself
+
+
+
+
+const reducerconfig = {
+
+ key:value
+ ReducerName:ReducerFunction
+ incred:IncrementReducer - syntax
+ IncrementReducer:IncrementReducer  ;  left: right ===same=> make it one
+ IncrementReducer,
+ DecrementReducer
+}
+
+const root = coimbineReducer(reducerconfig)
+
+ //state =>App state
+ Appstate={
+    reducer1: {},
+    reducer2: {}
+  
+  }
+//increment mapper
+ function mapStateToPropIncremet(state){
+    let incrementstate  = state.incrementReducer
+    
+    return {
+       counter:incrementState
+    }
+ }
+
+ function mapStateToPropDecrement(state){
+    let incrementstate  = state.incrementReducer
+    
+    return {
+       counter:incrementState
+    }
+ }
+****************************************************************************************
+
+
+module compnent :increment
+
+
+component 
+
+mapstateprop
+
+export connect
+
+
+module compnent :decrement
+
+
+component 
+
+mapstateprop
+
+export connect
+
+
+
+module compnent :counter
+
+ <Incrment>
+ <Decrement>
+********************************************************************************************
+React Native Navigation:
+........................
+
+Navigation types
+
+1.Stack based navigation
+2.Drawer based navigation
+3.Tab based Navigation
+
+
+If you are going to implementation any navigtion we need to install some dependencies
+
+ReactNavigation is provided third party libs.
+
+install the below libs:
+
+npm install @react-navigation/native @react-navigation/stack
+expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
+
+Navigation Basics:
+.................
+
+In browser navigation is controlled by history object, using a links.
+
+when you click hyperlink, url is pushed into browser history stack.
+
+When you press back button the browser pops the item from the top of the history stack.
+
+Mobile App Navigation Patterns:
+..............................
+
+Mobile Applications start tranistion between screens and mange navigtion history.
+
+Mobile application maintains one navigation stack when app pushes and pops items from the navigation statck.
+
+Mobile application offers animation and gestures when you navigate among screens.
+
+Note: React Navigation lib offers three types navigation facility.
+
+any navigation type has separate modules.
+
+Stack Moudule:
+
+npm install @react-navigation/stack
+
+********************************************************************************************
+
+Objects in Stack Based Object:
+...............................
+
+1.NavigationContainer
+  Built in Component which manages navigation tree and contains navigation state.
+  This component wraps all navigators structure.
+  In General this component should be parent component at the root of application.
+
+2.Stack Object
+   Stack.Navigator is going to hold collection of screens and matains current stack
+   Stack.Screen represents the screen to be displayed(Place Holder)
+
+ <NavigationContainer>
+     <Stack.Navigator>
+         <Stack.Screen name="Home"  component={Home} >
+     </Stack.Navigator>
+ </NavigationContainer>
+    
+
+Home Screen Design :
+
+//Stack Navigation
+import React from 'react';
+import {View,Text,StyleSheet} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native'
+import {createStackNavigator} from '@react-navigation/stack';
+//Create Stack Object
+const Stack = createStackNavigator();
+
+//Screens : Components
+function HomeScreen(){
+    return <View style={styles.container}>
+           <Text>Welcome to IBM Home Screen</Text>
+    </View>
+}
+function routeConfig(){
+    return <NavigationContainer>
+            <Stack.Navigator>
+                <Stack.Screen name="Home:IBM" component={HomeScreen} ></Stack.Screen>
+            </Stack.Navigator>
+    </NavigationContainer>
+
+}
+
+const App=()=>routeConfig();
+
+
+export default App;
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  });
+  
+Moving Between screens:
+  Home---->DetailsScreen
+  DetailsScreen---->Home
+
+
+//Stack Navigation
+import React from 'react';
+import {View,Text,StyleSheet,Button} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native'
+import {createStackNavigator} from '@react-navigation/stack';
+//Create Stack Object
+const Stack = createStackNavigator();
+
+//Screens : Components
+const HomeScreen = ({navigation})=>{
+    return <View style={styles.container}>
+           <Text>Welcome to IBM Home Screen</Text>
+           <Button title="Details" onPress={()=>
+                 navigation.navigate("Details")
+           }/>
+    </View>
+};
+const  DetailsScreen = () => {
+    return <View style={styles.container}>
+      <Text>Every app you build has a fixed start destination. 
+          This is the first screen the user sees when they 
+          launch your app from the launcher.This destination is also 
+          the last screen the user sees when they return to the launcher
+          after pressing the Back button. 
+          Let’s take a look at the Sunflower app as an example.
+    </Text>
+</View>
+};
+
+
+function routeConfig(){
+    return <NavigationContainer>
+            <Stack.Navigator>
+                <Stack.Screen name="Home:IBM" component={HomeScreen} />
+                <Stack.Screen name="Details" component={DetailsScreen} />
+            </Stack.Navigator>
+    </NavigationContainer>
+
+}
+
+const App=()=>routeConfig();
+
+
+export default App;
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  });
+  
+******************************************************************************************
+How to pass data from one screen to another screen: route Parameters
+ Home ---Details
+
+//Stack Navigation
+import React from 'react';
+import {View,Text,StyleSheet,Button} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native'
+import {createStackNavigator} from '@react-navigation/stack';
+//Create Stack Object
+const Stack = createStackNavigator();
+
+//Screens : Components
+const HomeScreen = ({navigation})=>{
+    return <View style={styles.container}>
+           <Text>Welcome to IBM Home Screen</Text>
+           <Button title="Details" onPress={()=>
+               navigation.navigate("Details",{title:'IBM Details '})
+           }/>
+    </View>
+};
+const  DetailsScreen = ({route,navigation}) => {
+     //Parameters 
+     const {title} = route.params;
+
+    return <View style={styles.container}>
+      <Text style={{fontSize:20}}>{title}</Text>
+      <Text>Every app you build has a fixed start destination. 
+          This is the first screen the user sees when they 
+          launch your app from the launcher.This destination is also 
+          the last screen the user sees when they return to the launcher
+          after pressing the Back button. 
+          Let’s take a look at the Sunflower app as an example.
+    </Text>
+</View>
+};
+
+
+function routeConfig(){
+    return <NavigationContainer>
+            <Stack.Navigator>
+                <Stack.Screen name="Home:IBM" component={HomeScreen} />
+                <Stack.Screen name="Details" component={DetailsScreen} />
+            </Stack.Navigator>
+    </NavigationContainer>
+
+}
+
+const App=()=>routeConfig();
+
+
+export default App;
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  });
+  
+******************************************************************************************
+
+How to pass data back to screen from where navigation done.
+//Stack Navigation
+import React, { useEffect, useState } from 'react';
+import {View,Text,StyleSheet,Button,TextInput} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native'
+import {createStackNavigator} from '@react-navigation/stack';
+//Create Stack Object
+const Stack = createStackNavigator();
+
+//Screens : Components
+const HomeScreen = ({navigation,route})=>{
+
+    //useEffect can be used to capture the data which was submitted by 
+    //navigated Screen
+    useEffect(()=>{
+      if(route.params?.post){
+            //if you want to send data to some where either to 
+            //server , you want to store it somewhere
+          console.log(route.params.post);
+      }
+
+    },[route.params?.post]);
+   
+    return <View style={styles.container}>
+           <Text>Welcome to IBM Home Screen</Text>
+           <Button title="Details" onPress={()=>
+               navigation.navigate("Details",{title:'IBM Details '})
+           }/>
+           <View>
+               <Text>Data from Details Screen</Text>
+                   <Text>{route.params?.post}</Text>
+           </View>
+    </View>
+};
+const  DetailsScreen = ({route,navigation}) => {
+     //Parameters 
+     const {title} = route.params;
+     //state 
+     const [postText,setPostText] = useState('test');
+
+
+    return <View style={styles.container}>
+      <Text style={{fontSize:20}}>{title}</Text>
+      <TextInput
+        value={postText}
+        onChangeText={setPostText}
+        style={{height:200, padding:10, backgroundColor:'white'}}
+        placeholder="You can type some thing"
+        multiline
+      />
+      <Button title="Save" onPress={()=>{
+          navigation.navigate("Home",{post:postText})
+          console.log(postText)
+      }}/>
+
+    
+</View>
+};
+
+
+function routeConfig(){
+    return <NavigationContainer>
+            <Stack.Navigator>
+                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="Details" component={DetailsScreen} />
+            </Stack.Navigator>
+    </NavigationContainer>
+
+}
+
+const App=()=>routeConfig();
+
+
+export default App;
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  });
+  
+******************************************************************************************
+
+how to set Header tiltle,logo:
+..............................
+
+ <Stack.Screen name="Home" options={
+   {title:'IBM Learning App'}
+ } component={HomeScreen} />
+
+
+import * as React from 'react';
+import { View, Text, Button, Image } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { Ionicons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+
+const Stack = createStackNavigator();
+
+function HomeScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Home Screen</Text>
+    </View>
+  );
+}
+
+// function LogoTitle() {
+//   return (
+//     <>
+//     <Image
+//       style={{ width: 50, height: 50 }}
+//       source={{
+//         uri: 'https://reactnative.dev/img/tiny_logo.png',
+//       }}   
+//       />
+//       </>
+//   );
+// }
+
+function LogoTitle(){
+    return  <Ionicons name="md-checkmark-circle" size={32} color="green" />
+
+}
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            title :'IBM learning',
+            headerTitle: props => <LogoTitle {...props} />,
+            headerRight: () => (
+            //   <Button
+            //     onPress={() => alert('This is a button!')}
+            //     title="Info"
+            //     color="#00cc00"
+            //   />
+            <AntDesign name="infocirlce" onPress={() => alert('This is a button!')} size={24} color="black" />
+            ),
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+export default App;
+******************************************************************************************
+Drawer Navigation:
+.................
+
+npm install @react-navigation/drawer
+
+
+
+//Stack Navigation
+import React from 'react';
+import {View,Text,StyleSheet} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native'
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import { AntDesign } from '@expo/vector-icons'; 
+
+//Create Stack Object
+const Drawer = createDrawerNavigator();
+
+//Screens : Components
+function HomeScreen({navigation}){
+    return <View style={styles.container}>
+           <Text>Welcome to IBM Home Screen</Text>
+           <AntDesign name="mail" onPress={
+               ()=>navigation.navigate('InBox')
+               
+            } size={24} color="black" />
+
+    </View>
+}
+function InBox(){
+    return <View style={styles.container}>
+           <Text>INBOX</Text>
+    </View>
+}
+function SentItems(){
+    return <View style={styles.container}>
+           <Text>Sent Items</Text>
+    </View>
+}
+function DeletedItems(){
+    return <View style={styles.container}>
+           <Text>DeletedItems</Text>
+    </View>
+}
+
+function routeConfig(){
+    return <NavigationContainer>
+            <Drawer.Navigator>
+                <Drawer.Screen name="Home" component={HomeScreen} />
+                <Drawer.Screen name="InBox" component={InBox} />
+                <Drawer.Screen name="SentItems" component={SentItems} />
+                <Drawer.Screen name="DeletedItems" component={DeletedItems} />
+            </Drawer.Navigator>
+    </NavigationContainer>
+
+}
+
+const App=()=>routeConfig();
+
+
+export default App;
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  });
+**********************************************************************************************
+Nested Route : ==>Tabbed Navigator
+
+ ---Inbox
+      -- search
+      -- calendar 
+      -- XXXX
+
+npm install @react-navigation/bottom-tabs
+
+
+import * as React from 'react';
+import { Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+function HomeScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Home!</Text>
+    </View>
+  );
+}
+
+function SettingsScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Settings!</Text>
+    </View>
+  );
+}
+
+const Tab = createBottomTabNavigator();
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Settings" component={SettingsScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}
+*******************************************************************************************
+
+Todo
+
+Add Todo  ----->Input --Array
+ 
+Edit Todo
+
+List Todo ---->FlatList --->click Item----Edit --Completed
+
+Delete Todo - Completed
+
+Home  - Pre loaded todos
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

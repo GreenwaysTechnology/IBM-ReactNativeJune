@@ -2,6 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {View,Text,Button,StyleSheet} from 'react-native';
 import {INCREMENT} from '../../actionconstants/counter'
+import App from '../../App';
+
+//const Incrment=...App
+//const Decrement =...App
 
 const Counter=(props)=>{
     return <View>
@@ -9,14 +13,17 @@ const Counter=(props)=>{
             <Button title="Increment" onPress={()=>{
                 props.dispatch({type:INCREMENT});
             }}/>
+            
+
     </View>
 };
 /////////////////////////////////////////////////////////////////////////
 //mapper function
 function mapStateToProps(state){
+   // let incrementstate =  state.reducerName;
     return {
         //prop:state
-        counter:state
+        counter:state // counter:incrementState
     }
 };
 //Component
