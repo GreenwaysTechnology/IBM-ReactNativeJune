@@ -1,44 +1,10 @@
 import React from 'react';
-import {Provider,connect} from 'react-redux';
-import {createStore} from 'redux';
-import {View,Text,Button,StyleSheet} from 'react-native';
+import {Provider} from 'react-redux';
+import {View,StyleSheet} from 'react-native';
+import {store} from './store';
+import {CounterContainer} from  './components/counter'
 
-//action constants
-const INCREMENT='INCREMENT';
-
-//step 1: declare Reducer 
-
-const CounterReducer=(state=20,action)=>{
-    switch (action.type) {
-        case INCREMENT:
-             return state +1;           
-         default:
-             return state;        
-    }
-};
-//create Store instance
-const store = createStore(CounterReducer);
-/////////////////////////////////////////////////////////////////////////
-//mapper function
-function mapStateToProps(state){
-    return {
-        //prop:state
-        counter:state
-    }
-};
-//Component
-const Counter=(props)=>{
-    return <View>
-            <Text>Counter {props.counter}</Text>
-            <Button title="Increment" onPress={()=>{
-                props.dispatch({type:INCREMENT});
-            }}/>
-    </View>
-};
-//create HOC : Higher order function; decorator design pattern
-const CounterContainer =connect(mapStateToProps)(Counter);
-
-//App Component and Render
+//Root Application
 const App = ()=>{
    return<Provider store={store}>  
         <View style={styles.container}>
@@ -46,7 +12,6 @@ const App = ()=>{
          </View>
    </Provider>
 }
-
 export default App;
 
 const styles = StyleSheet.create({
