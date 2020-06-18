@@ -1,6 +1,7 @@
+import React from 'react';
 import {connect} from 'react-redux';
 import {View,Text,Button,StyleSheet} from 'react-native';
-
+import {INCREMENT} from '../../actionconstants/counter'
 
 const Counter=(props)=>{
     return <View>
